@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Savoria Bistro | The Art of Modern Dining</title>
+
+    <!-- Tailwind CSS Play CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts: Inter & Plus Jakarta Sans -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#fff7ed',
+                            400: '#fb923c',
+                            500: '#f97316',
+                            600: '#ea580c',
+                        },
+                        slate: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            200: '#e2e8f0',
+                            800: '#1e293b',
+                            900: '#0f172a',
+                            950: '#020617',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Glass Effect khusus Button & Small Cards */
+        .glass-btn {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .glass-btn:hover {
+            background: rgba(249, 115, 22, 0.9);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        /* Reveal Animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .food-zoom:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f8fafc;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #e2e8f0;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #f97316;
+        }
+
+        /* Luxury Map Styling */
+        .map-container iframe {
+            filter: grayscale(0.3) contrast(1.1) brightness(0.9);
+            transition: all 0.5s ease;
+        }
+
+        .map-container:hover iframe {
+            filter: grayscale(0) contrast(1) brightness(1);
+        }
+    </style>
+</head>
+
+<body class="bg-slate-50 text-slate-900 font-sans antialiased overflow-x-hidden">
+
+    <!-- --- 1. NAVIGATION --- -->
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 px-6 py-5">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div
+                    class="w-10 h-10 bg-primary-500 rounded-xl flex items-center justify-center text-white shadow-lg shadow-primary-500/20">
+                    <i data-lucide="utensils-crossed" size="20" stroke-width="2.5"></i>
+                </div>
+                <span id="nav-text"
+                    class="text-xl font-black tracking-tighter text-white uppercase font-display">SAVORIA</span>
+            </div>
+
+            <div
+                class="hidden md:flex items-center gap-10 text-[11px] font-bold uppercase tracking-[0.2em] text-primary-500">
+                <a href="#home" class="hover:text-white transition-colors">Home</a>
+                <a href="#signature" class="hover:text-white transition-colors">Best Seller</a>
+                <a href="#menu" class="hover:text-white transition-colors">Katalog</a>
+                <a href="#location" class="hover:text-white transition-colors">Lokasi</a>
+            </div>
+
+            <a href="https://wa.me/628123456789" target="_blank"
+                class="hidden sm:flex items-center gap-2 px-6 py-2.5 bg-primary-500 text-white rounded-full font-bold text-[11px] uppercase tracking-widest hover:bg-primary-600 transition-all shadow-lg active:scale-95">
+                <i data-lucide="message-circle" size="14"></i> Order Now
+            </a>
+        </div>
+    </nav>
+
+    <!-- --- 2. HERO SECTION --- -->
+    <section id="home" class="relative min-h-screen flex items-center bg-slate-950 overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1600&q=80" alt="Bistro"
+                class="w-full h-full object-cover opacity-40 scale-105">
+            <div class="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/70 to-transparent"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent"></div>
+        </div>
+
+        <div class="relative z-10 max-w-7xl mx-auto px-6 w-full mt-10">
+            <div class="max-w-3xl space-y-8 reveal active">
+                <div
+                    class="inline-flex items-center gap-2 px-4 py-2 bg-white/5 backdrop-blur-md rounded-full border border-white/10 text-white text-[10px] font-black uppercase tracking-[0.3em]">
+                    <span class="w-2 h-2 rounded-full bg-primary-500 animate-pulse"></span>
+                    Modern Dining Experience
+                </div>
+
+                <h1
+                    class="text-6xl md:text-8xl font-black text-white leading-[0.9] tracking-tighter uppercase font-display">
+                    Masakan Rumahan <br> <span class="text-primary-500 italic">Rasa</span> Bintang 5.
+                </h1>
+
+                <p class="text-slate-400 text-lg md:text-xl max-w-xl font-medium leading-relaxed italic">
+                    "Menghadirkan harmoni rasa tradisional dalam balutan estetika kontemporer yang mewah."
+                </p>
+
+                <div class="flex flex-col sm:flex-row gap-5 pt-4">
+                    <a href="#menu"
+                        class="px-12 py-5 bg-primary-500 text-white rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-orange-600 transition-all shadow-2xl shadow-primary-500/20 active:scale-95 flex items-center justify-center gap-2">
+                        Lihat Menu <i data-lucide="arrow-right" size="16"></i>
+                    </a>
+                    <button onclick="orderWA('Reservasi Meja')"
+                        class="px-12 py-5 bg-white/5 backdrop-blur-md text-white border border-white/10 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-white/10 transition-all active:scale-95">
+                        Tentang Kami
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- --- 3. BEST SELLER / SIGNATURE MENU --- -->
+    <section id="signature" class="py-32 px-6 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center max-w-2xl mx-auto mb-20 space-y-4 reveal">
+                <h2 class="text-primary-500 font-black uppercase tracking-[0.4em] text-[10px]">Chef's Recommendation
+                </h2>
+                <h3 class="text-4xl md:text-5xl font-black tracking-tighter text-slate-900 uppercase font-display">Best
+                    Seller</h3>
+                <div class="w-20 h-1 bg-primary-500 mx-auto rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                <!-- Signature 1 -->
+                <div
+                    class="reveal group bg-white rounded-[2.5rem] overflow-hidden border border-slate-100 hover:shadow-2xl transition-all duration-500 flex flex-col">
+                    <div class="relative h-72 overflow-hidden food-zoom">
+                        <img src="https://cdn-akamai.lkk.com/-/media/hk-site---homecook/hk-recipes_600_wagyu-beef-fried-rice.jpg?h=465&iar=0&w=600&hash=5F9E07A864CCE399BC596D88715A0B55"
+                            alt="Wagyu" class="w-full h-full object-cover transition-all">
+                        <div class="absolute top-4 left-4"><span
+                                class="px-3 py-1 bg-black/40 backdrop-blur-md text-white text-[9px] font-black uppercase rounded-lg">Signature</span>
+                        </div>
+                    </div>
+                    <div class="p-8 flex flex-col flex-1 space-y-4">
+                        <h4 class="text-xl font-black text-slate-800 uppercase font-display">Nasi Goreng Wagyu</h4>
+                        <p class="text-slate-400 text-xs italic line-clamp-2">Daging Wagyu Meltique lembut dengan nasi
+                            rempah rahasia ala Savoria.</p>
+                        <p class="text-primary-500 font-black text-lg italic tracking-tighter">Rp 85.000</p>
+                        <button onclick="orderWA('Nasi Goreng Wagyu')"
+                            class="w-full py-4 glass-btn text-white rounded-2xl font-black text-[10px] uppercase tracking-widest transition-all active:scale-95 flex items-center justify-center gap-2">
+                            Order Now <i data-lucide="chevron-right" size="14"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- Signature 2 -->
+                <div
+                    class="reveal group bg-white rounded-[2.5rem] overflow-hidden border border-slate-100 hover:shadow-2xl transition-all duration-500 flex flex-col">
+                    <div class="relative h-72 overflow-hidden food-zoom">
+                        <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=600&q=80" alt="Iga"
+                            class="w-full h-full object-cover transition-all">
+                        <div class="absolute top-4 left-4"><span
+                                class="px-3 py-1 bg-black/40 backdrop-blur-md text-white text-[9px] font-black uppercase rounded-lg">Popular</span>
+                        </div>
+                    </div>
+                    <div class="p-8 flex flex-col flex-1 space-y-4">
+                        <h4 class="text-xl font-black text-slate-800 uppercase font-display">Iga Bakar Madu</h4>
+                        <p class="text-slate-400 text-xs italic line-clamp-2">Iga sapi premium bakar dengan balutan saus
+                            madu pedas meresap sempurna.</p>
+                        <p class="text-primary-500 font-black text-lg italic tracking-tighter">Rp 125.000</p>
+                        <button onclick="orderWA('Iga Bakar Madu')"
+                            class="w-full py-4 glass-btn text-white rounded-2xl font-black text-[10px] uppercase tracking-widest transition-all active:scale-95 flex items-center justify-center gap-2">
+                            Order Now <i data-lucide="chevron-right" size="14"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- Signature 3 -->
+                <div
+                    class="reveal group bg-white rounded-[2.5rem] overflow-hidden border border-slate-100 hover:shadow-2xl transition-all duration-500 flex flex-col">
+                    <div class="relative h-72 overflow-hidden food-zoom">
+                        <img src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=600&q=80" alt="Salmon"
+                            class="w-full h-full object-cover transition-all">
+                        <div class="absolute top-4 left-4"><span
+                                class="px-3 py-1 bg-black/40 backdrop-blur-md text-white text-[9px] font-black uppercase rounded-lg">Signature</span>
+                        </div>
+                    </div>
+                    <div class="p-8 flex flex-col flex-1 space-y-4">
+                        <h4 class="text-xl font-black text-slate-800 uppercase font-display">Salmon Teriyaki</h4>
+                        <p class="text-slate-400 text-xs italic line-clamp-2">Salmon Norwegia segar dipanggang dengan
+                            saus teriyaki otentik Jepang.</p>
+                        <p class="text-primary-500 font-black text-lg italic tracking-tighter">Rp 95.000</p>
+                        <button onclick="orderWA('Salmon Teriyaki')"
+                            class="w-full py-4 glass-btn text-white rounded-2xl font-black text-[10px] uppercase tracking-widest transition-all active:scale-95 flex items-center justify-center gap-2">
+                            Order Now <i data-lucide="chevron-right" size="14"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- --- 4. USP SECTION --- -->
+    <section class="py-24 px-6 bg-slate-900 text-white">
+        <div class="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-12 text-center">
+            <div class="space-y-4 reveal">
+                <div
+                    class="w-16 h-16 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center text-primary-500 mx-auto">
+                    <i data-lucide="leaf" size="32"></i>
+                </div>
+                <h5 class="font-black text-[10px] uppercase tracking-widest">Bahan Segar Setiap Hari</h5>
+            </div>
+            <div class="space-y-4 reveal">
+                <div
+                    class="w-16 h-16 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center text-primary-500 mx-auto">
+                    <i data-lucide="award" size="32"></i>
+                </div>
+                <h5 class="font-black text-[10px] uppercase tracking-widest">Resep Turun Temurun</h5>
+            </div>
+            <div class="space-y-4 reveal">
+                <div
+                    class="w-16 h-16 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center text-primary-500 mx-auto">
+                    <i data-lucide="check-circle" size="32"></i>
+                </div>
+                <h5 class="font-black text-[10px] uppercase tracking-widest">100% Halal & Higienis</h5>
+            </div>
+            <div class="space-y-4 reveal">
+                <div
+                    class="w-16 h-16 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center text-primary-500 mx-auto">
+                    <i data-lucide="flame" size="32"></i>
+                </div>
+                <h5 class="font-black text-[10px] uppercase tracking-widest">Dimasak Setelah Order</h5>
+            </div>
+        </div>
+    </section>
+
+    <!-- --- 5. FULL MENU CATALOG --- -->
+    <section id="menu" class="py-32 px-6 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center max-w-2xl mx-auto mb-24 space-y-4 reveal">
+                <h2 class="text-primary-500 font-black uppercase tracking-[0.4em] text-[10px]">Private Selection</h2>
+                <h3 class="text-4xl md:text-5xl font-black tracking-tighter text-slate-900 uppercase font-display">
+                    Katalog Menu Kami</h3>
+                <div class="w-20 h-1 bg-primary-500 mx-auto rounded-full"></div>
+            </div>
+
+            <!-- MENU GRID -->
+            <div id="menu-grid" class="grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3 gap-10">
+                <!-- Data di-render oleh JS -->
+            </div>
+
+            <!-- SEE MORE -->
+            <div class="mt-20 text-center reveal">
+                <button id="btn-see-more"
+                    class="group inline-flex items-center gap-4 px-12 py-5 bg-slate-950 text-white rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-primary-500 transition-all shadow-xl active:scale-95">
+                    <span>Lihat Menu Lainnya</span>
+                    <i data-lucide="plus" class="w-4 h-4 group-hover:rotate-90 transition-transform"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- --- 6. TESTIMONI (Luxury Glass Edition) --- -->
+    <section class="py-32 px-6 bg-slate-50 relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-full opacity-[0.03] pointer-events-none">
+            <i data-lucide="quote" class="w-full h-full stroke-[0.1]"></i>
+        </div>
+
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center max-w-2xl mx-auto mb-20 space-y-4 reveal">
+                <h2 class="text-primary-500 font-black uppercase tracking-[0.4em] text-[10px]">Guest Experiences</h2>
+                <h3
+                    class="text-4xl md:text-5xl font-black tracking-tighter text-slate-900 uppercase font-display italic">
+                    Apa Kata Mereka?</h3>
+                <div class="w-20 h-1 bg-primary-500 mx-auto rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Testi 1 -->
+                <div
+                    class="glass-card p-10 rounded-[3rem] reveal space-y-8 hover:shadow-2xl hover:-translate-y-2 transition-all duration-500">
+                    <div class="flex gap-1.5 text-primary-500">
+                        <i data-lucide="star" class="fill-primary-500" size="14"></i>
+                        <i data-lucide="star" class="fill-primary-500" size="14"></i>
+                        <i data-lucide="star" class="fill-primary-500" size="14"></i>
+                        <i data-lucide="star" class="fill-primary-500" size="14"></i>
+                        <i data-lucide="star" class="fill-primary-500" size="14"></i>
+                    </div>
+                    <p class="text-slate-600 font-medium italic text-lg leading-relaxed">"Rasanya bener-bener konsisten,
+                        porsinya mantap, dan plating-nya sangat luxury. Wajib coba Iga Bakar Madunya!"</p>
+                    <div class="flex items-center gap-4 pt-6 border-t border-white/40">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&q=80"
+                            alt="Andini"
+                            class="w-12 h-12 rounded-full object-cover border-2 border-primary-500 shadow-sm">
+                        <div>
+                            <p class="font-black text-xs uppercase tracking-wider text-slate-800">Andini Putri</p>
+                            <p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Food Enthusiast</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testi 2 -->
+                <div
+                    class="glass-card p-10 rounded-[3rem] reveal space-y-8 hover:shadow-2xl hover:-translate-y-2 transition-all duration-500">
+                    <div class="flex gap-1.5 text-primary-500">
+                        <i data-lucide="star" class="fill-primary-500" size="14"></i>
+                        <i data-lucide="star" class="fill-primary-500" size="14"></i>
+                        <i data-lucide="star" class="fill-primary-500" size="14"></i>
+                        <i data-lucide="star" class="fill-primary-500" size="14"></i>
+                        <i data-lucide="star" class="fill-primary-500" size="14"></i>
+                    </div>
+                    <p class="text-slate-600 font-medium italic text-lg leading-relaxed">"Tempat favorit buat dinner
+                        sama keluarga. Pelayanannya cepat dan sistem kasirnya sangat modern dan memudahkan."</p>
+                    <div class="flex items-center gap-4 pt-6 border-t border-white/40">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&q=80"
+                            alt="Budi"
+                            class="w-12 h-12 rounded-full object-cover border-2 border-primary-500 shadow-sm">
+                        <div>
+                            <p class="font-black text-xs uppercase tracking-wider text-slate-800">Budi Santoso</p>
+                            <p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Owner Company</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testi 3 -->
+                <div
+                    class="glass-card p-10 rounded-[3rem] reveal space-y-8 hover:shadow-2xl hover:-translate-y-2 transition-all duration-500">
+                    <div class="flex gap-1.5 text-primary-500">
+                        <i data-lucide="star" class="fill-primary-500" size="14"></i>
+                        <i data-lucide="star" class="fill-primary-500" size="14"></i>
+                        <i data-lucide="star" class="fill-primary-500" size="14"></i>
+                        <i data-lucide="star" class="fill-primary-500" size="14"></i>
+                        <i data-lucide="star" class="fill-primary-500" size="14"></i>
+                    </div>
+                    <p class="text-slate-600 font-medium italic text-lg leading-relaxed">"Salmon Teriyakinya nggak ada
+                        lawan! Teksturnya pas dan sausnya meresap sempurna ke dalam dagingnya."</p>
+                    <div class="flex items-center gap-4 pt-6 border-t border-white/40">
+                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&h=150&q=80"
+                            alt="Siti"
+                            class="w-12 h-12 rounded-full object-cover border-2 border-primary-500 shadow-sm">
+                        <div>
+                            <p class="font-black text-xs uppercase tracking-wider text-slate-800">Siti Aminah</p>
+                            <p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Visual Designer</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- --- 7. AMBIENCE & PHILOSOPHY (NEW LUXURY BLOCK) --- -->
+    <section id="about" class="py-32 px-6 bg-slate-900 text-white relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-1/2 h-full opacity-5 pointer-events-none">
+            <i data-lucide="utensils" class="w-full h-full stroke-[0.5]"></i>
+        </div>
+
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+            <div class="space-y-8 reveal">
+                <h2 class="text-primary-500 font-black uppercase tracking-[0.3em] text-[10px]">Our Philosophy</h2>
+                <h3 class="text-4xl md:text-5xl font-black leading-tight tracking-tighter uppercase font-display">
+                    Kualitas Tanpa Kompromi.</h3>
+                <p class="text-slate-400 text-lg leading-relaxed font-medium">
+                    Didirikan pada tahun 2026, Savoria Bistro lahir dari mimpi untuk menghadirkan pengalaman makan mewah
+                    namun tetap inklusif bagi seluruh pencinta kuliner.
+                </p>
+                <div class="grid grid-cols-2 gap-8 text-center sm:text-left">
+                    <div class="space-y-2">
+                        <p class="text-3xl font-black text-white tracking-tighter">100%</p>
+                        <p class="text-xs text-slate-500 font-bold uppercase tracking-widest">Organic Ingredients</p>
+                    </div>
+                    <div class="space-y-2">
+                        <p class="text-3xl font-black text-white tracking-tighter">12k+</p>
+                        <p class="text-xs text-slate-500 font-bold uppercase tracking-widest">Happy Customers</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="relative reveal">
+                <!-- Foto Ambience Luxury yang Kamu Minta -->
+                <img src="https://cdn.grid.id/crop/0x0:0x0/filters:format(webp):quality(100)/photo/2023/04/11/resep-lontong-sayur-menu-lebara-20230411043751.jpg"
+                    alt="Ambience"
+                    class="rounded-[2.5rem] shadow-2xl w-full h-[500px] object-cover border border-white/5">
+
+                <!-- Floating Glass Testimonial Box -->
+                <div
+                    class="absolute -bottom-8 -left-8 glass-card p-8 rounded-3xl shadow-2xl max-w-xs hidden md:block border-white/40">
+                    <p class="text-slate-900 font-bold text-sm leading-relaxed italic">"Savoria memberikan standar baru
+                        bagi industri kuliner modern di pusat kota."</p>
+                    <p class="text-slate-400 text-[10px] mt-4 font-black uppercase tracking-widest">— Lifestyle Magazine
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- --- 8. LOCATION & CLOSING --- -->
+    <section id="location" class="py-32 px-6 bg-white">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+            <div class="space-y-8 reveal">
+                <h2 class="text-primary-500 font-black uppercase tracking-[0.3em] text-[10px]">Find Our Bistro</h2>
+                <h3 class="text-4xl md:text-5xl font-black uppercase font-display">Lapar? <br> Jangan Ditunda.</h3>
+                <p class="text-slate-400 text-lg leading-relaxed italic">"Ayo mampir ke restoran kami untuk merasakan
+                    pengalaman kuliner yang belum pernah Anda temui sebelumnya."</p>
+                <div class="space-y-6">
+                    <div class="flex items-start gap-4">
+                        <div class="p-4 bg-slate-50 rounded-2xl text-primary-500"><i data-lucide="map-pin"></i></div>
+                        <div>
+                            <p class="font-black text-slate-800 uppercase text-xs tracking-wider">Lokasi</p>
+                            <p class="text-slate-500 text-sm">Jakarta Selatan, DKI Jakarta.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <div class="p-4 bg-slate-50 rounded-2xl text-primary-500"><i data-lucide="clock"></i></div>
+                        <div>
+                            <p class="font-black text-slate-800 uppercase text-xs tracking-wider">Jam Buka</p>
+                            <p class="text-slate-500 text-sm">Mon-Fri: 10AM - 10PM | Sat-Sun: 09AM - 12PM</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="pt-6 flex gap-4">
+                    <button onclick="orderWA('Pesan Meja')"
+                        class="px-10 py-5 bg-primary-500 text-white rounded-3xl font-black text-xs uppercase tracking-widest shadow-xl shadow-primary-500/20 active:scale-95">Order
+                        Sekarang</button>
+                    <button onclick="orderWA('Reservasi Meja')"
+                        class="px-10 py-5 border-2 border-slate-100 rounded-3xl font-black text-xs uppercase tracking-widest hover:bg-slate-50 active:scale-95">Reservasi</button>
+                </div>
+            </div>
+
+            <!-- --- INTERACTIVE GOOGLE MAP --- -->
+            <div
+                class="relative reveal h-[450px] rounded-[3rem] border border-slate-200 overflow-hidden shadow-2xl map-container">
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4053.079458451884!2d106.78430506222345!3d-6.272050620953207!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f1ec2422b0b3%3A0x39a0d0fe47404d02!2sJakarta%20Selatan%2C%20Jakarta%20Selatan%2C%20Daerah%20Khusus%20Ibukota%20Jakarta!5e1!3m2!1sid!2sid!4v1770312690490!5m2!1sid!2sid"
+                    class="w-full h-full" style="border:0;" allowfullscreen="" loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- --- FOOTER --- -->
+    <footer class="bg-white pt-24 pb-12 px-6 border-t border-slate-100">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-20">
+                <div class="col-span-1 md:col-span-1 space-y-6">
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 bg-primary-500 rounded-lg flex items-center justify-center text-white"><i
+                                data-lucide="utensils-crossed" size="16"></i></div>
+                        <span class="text-lg font-black tracking-tighter uppercase font-display">SAVORIA</span>
+                    </div>
+                    <p class="text-slate-400 text-sm leading-relaxed font-medium">Modern Dining Experience. Gabungan
+                        rasa autentik dan estetika kontemporer.</p>
+                </div>
+                <div class="space-y-6">
+                    <h4 class="text-[10px] font-black uppercase tracking-widest text-slate-400">Links</h4>
+                    <ul class="space-y-3 text-sm font-bold text-slate-600 uppercase text-[11px] tracking-wider">
+                        <li><a href="#menu" class="hover:text-primary-500">Katalog Menu</a></li>
+                        <li><a href="#" class="hover:text-primary-500">Reservasi</a></li>
+                    </ul>
+                </div>
+                <div class="space-y-6">
+                    <h4 class="text-[10px] font-black uppercase tracking-widest text-slate-400">Contact</h4>
+                    <ul class="space-y-3 text-sm font-bold text-slate-600">
+                        <li>halo@savoria.com</li>
+                        <li>+62 812-3456-7890</li>
+                    </ul>
+                </div>
+                <div class="space-y-6">
+                    <h4 class="text-[10px] font-black uppercase tracking-widest text-slate-400">Follow Us</h4>
+                    <div class="flex gap-4"><a href="#" class="text-slate-400 hover:text-primary-500"><i
+                                data-lucide="instagram" size="20"></i></a><a href="#"
+                            class="text-slate-400 hover:text-primary-500"><i data-lucide="twitter" size="20"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div
+                class="pt-8 border-t border-slate-50 flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                <p>&copy; 2026 Savoria Bistro. All Rights Reserved.</p>
+                <a href="/login" class="hover:text-primary-500">Staff Access</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- --- JAVASCRIPT --- -->
+    <script>
+        lucide.createIcons();
+
+        // 1. Navbar Logic
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            const text = document.getElementById('nav-text');
+            if (window.scrollY > 80) {
+                nav.classList.add('glass-nav', 'shadow-sm', 'py-4');
+                nav.classList.remove('py-5');
+                text.classList.add('text-slate-900');
+                text.classList.remove('text-white');
+            } else {
+                nav.classList.remove('glass-nav', 'shadow-sm', 'py-4');
+                nav.classList.add('py-5');
+                text.classList.remove('text-slate-900');
+                text.classList.add('text-white');
+            }
+        });
+
+        // 2. WhatsApp Order Template
+        window.orderWA = (name) => {
+            const phone = "628123456789";
+            const text = `Halo Savoria Bistro! Saya mau pesan/reservasi: ${name}. Apakah tersedia?`;
+            window.open(`https://wa.me/${phone}?text=${encodeURIComponent(text)}`, '_blank');
+        };
+
+        // 3. Data Menu (10 Rekomendasi)
+        const ALL_PRODUCTS = [
+            { name: 'Berry Hibiscus Cold Brew', price: 45000, category: 'Beverages', img: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=600&q=80' },
+            { name: 'Matcha Lava Cake', price: 65000, category: 'Dessert', img: 'https://images.unsplash.com/photo-1551024601-bec78aea704b?w=600&q=80' },
+            { name: 'Crispy Dimsum Mix', price: 42000, category: 'Snack', img: 'https://images.unsplash.com/photo-1496116218417-1a781b1c416c?w=600&q=80' },
+            { name: 'Organic Lemon Sorbet', price: 35000, category: 'Dessert', img: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=600&q=80' },
+            { name: 'Gold Flake Cappuccino', price: 55000, category: 'Coffee', img: 'https://images.unsplash.com/photo-1541167760496-1628856ab772?w=600&q=80' },
+            { name: 'Truffle Mushroom Pasta', price: 125000, category: 'Pasta', img: 'https://images.unsplash.com/photo-1473093226795-af9932fe5856?w=600&q=80' },
+            { name: 'Smoked Beef Toast', price: 45000, category: 'Snack', img: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=600&q=80' }
+        ];
+
+        let displayCount = 6;
+
+        function renderGrid() {
+            const grid = document.getElementById('menu-grid');
+            if (!grid) return;
+            grid.innerHTML = "";
+            const current = ALL_PRODUCTS.slice(0, displayCount);
+
+            current.forEach((item) => {
+                const card = document.createElement('div');
+                card.className = "reveal active group bg-white rounded-[2.5rem] overflow-hidden border border-slate-100 shadow-md hover:shadow-2xl transition-all duration-500 flex flex-col";
+                card.innerHTML = `
+                    <div class="relative h-64 overflow-hidden food-zoom">
+                        <img src="${item.img}" alt="${item.name}" class="w-full h-full object-cover transition-transform duration-700">
+                        <div class="absolute top-4 left-4"><span class="px-3 py-1 bg-black/30 backdrop-blur-md text-white text-[9px] font-black uppercase rounded-lg italic border border-white/10">${item.category}</span></div>
+                    </div>
+                    <div class="p-8 flex flex-col flex-1 space-y-5">
+                        <div class="flex justify-between items-start">
+                            <h4 class="text-lg font-black text-slate-800 uppercase tracking-tighter leading-tight font-display line-clamp-2">${item.name}</h4>
+                        </div>
+                        <div class="flex justify-between items-center border-t border-slate-50 pt-4">
+                            <p class="text-primary-500 font-black text-lg italic tracking-tighter whitespace-nowrap">Rp ${item.price.toLocaleString('id-ID')}</p>
+                            <button onclick="orderWA('${item.name}')" class="px-6 py-3 glass-btn text-white rounded-2xl font-black text-[9px] uppercase tracking-[0.2em] transition-all flex items-center gap-2 active:scale-95 shadow-lg shadow-gray-100">
+                                <i data-lucide="shopping-cart" size="14"></i> Pesan
+                            </button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+            lucide.createIcons();
+            if (displayCount >= ALL_PRODUCTS.length) document.getElementById('btn-see-more').style.display = 'none';
+        }
+
+        const btnMore = document.getElementById('btn-see-more');
+        if (btnMore) {
+            btnMore.onclick = () => {
+                displayCount += 4;
+                renderGrid();
+            };
+        }
+
+        renderGrid();
+
+        function reveal() {
+            document.querySelectorAll(".reveal").forEach(el => {
+                if (el.getBoundingClientRect().top < window.innerHeight - 100) el.classList.add("active");
+            });
+        }
+        window.addEventListener("scroll", reveal);
+        window.onload = reveal;
+    </script>
+</body>
+
+</html>
