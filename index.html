@@ -220,7 +220,7 @@
 
             <!-- STANDARD GRID 4 COLS -->
             <div id="menu-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <!-- Data di-render oleh JS -->
+                <!-- Data di-render secara dinamis oleh JavaScript dari API -->
             </div>
 
             <div class="mt-24 text-center reveal">
@@ -391,7 +391,7 @@
                     </div>
                 </div>
                 <div class="pt-6 flex gap-4">
-                    <button onclick="window.open('https://wa.me/628123456789')"
+                    <button onclick="window.open('https://wa.me/6285267653061')"
                         class="px-10 py-5 bg-primary-500 text-white rounded-3xl font-black text-xs uppercase tracking-widest shadow-xl shadow-primary-500/20 active:scale-95">Personal
                         Shopper</button>
                     <button
@@ -456,7 +456,8 @@
 
     <!-- --- JAVASCRIPT --- -->
     <script>
-        lucide.createIcons();
+        // 0. INTEGRASI API REAL-TIME
+        const API_URL = "https://api.nansday.com"; // GANTI JIKA IP BERUBAH
 
         // 1. Navbar Logic
         window.addEventListener('scroll', () => {
@@ -482,41 +483,58 @@
             window.open(`https://wa.me/${phone}?text=${encodeURIComponent(text)}`, '_blank');
         };
 
-        // 3. 15 PRODUK FASHION & PARFUM
-        const ALL_PRODUCTS = [
-            { name: 'Azure Ocean EDP', price: 850000, category: 'Fragrance', img: 'https://images.unsplash.com/photo-1541643600914-78b084683601?w=600&q=80' },
-            { name: 'Urban Oversized Tee', price: 185000, category: 'Apparel', img: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&q=80' },
-            { name: 'Raw Denim Jacket', price: 550000, category: 'Apparel', img: 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=600&q=80' },
-            { name: 'Midnight Oud Parfum', price: 1250000, category: 'Fragrance', img: 'https://images.unsplash.com/photo-1592914610354-fd354ea45e48?w=600&q=80' },
-            { name: 'Slim-Fit Chino Navy', price: 325000, category: 'Apparel', img: 'https://images.unsplash.com/photo-1473966968600-fa804b86d30b?w=600&q=80' },
-            { name: 'Rose Velvet Bloom', price: 725000, category: 'Fragrance', img: 'https://images.unsplash.com/photo-1587017539504-67cfbddac569?w=600&q=80' },
-            { name: 'Linen Summer Shirt', price: 275000, category: 'Apparel', img: 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=600&q=80' },
-            { name: 'Citrus Fresh Musk', price: 625000, category: 'Fragrance', img: 'https://images.unsplash.com/photo-1557170334-a9632e77c6e4?w=600&q=80' },
-            { name: 'Urban Bomber Jacket', price: 485000, category: 'Apparel', img: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=600&q=80' },
-            { name: 'Sandalwood Intense', price: 950000, category: 'Fragrance', img: 'https://images.unsplash.com/photo-1615484477778-ca3b77940c25?w=600&q=80' },
-            { name: 'Knit Turtleneck Grey', price: 345000, category: 'Apparel', img: 'https://images.unsplash.com/photo-1611312449412-6cefac56399e?w=600&q=80' },
-            { name: 'Vanilla Dream Mist', price: 450000, category: 'Fragrance', img: 'https://images.unsplash.com/photo-1594035910387-fea47794261f?w=600&q=80' },
-            { name: 'Bergamot & Sage EDP', price: 780000, category: 'Fragrance', img: 'https://images.unsplash.com/photo-1590736704728-f4730bb30770?w=600&q=80' },
-            { name: 'Silk Scarf Signature', price: 125000, category: 'Accessory', img: 'https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?w=600&q=80' },
-            { name: 'Pleated White Culottes', price: 295000, category: 'Apparel', img: 'https://images.unsplash.com/photo-1584305116359-198304530751?w=600&q=80' }
-        ];
-
         let displayCount = 8;
+        let fetchedProducts = [];
 
+        // 3. FUNGSI FETCH DATA DARI BACKEND
+        async function fetchCatalog() {
+            const grid = document.getElementById('menu-grid');
+
+            // Tampilkan Loading State sementara (Opsional, agar user tau data sedang ditarik)
+            grid.innerHTML = `<div class="col-span-full text-center py-10 text-gray-400 animate-pulse font-bold uppercase tracking-widest text-xs">MENGHUBUNGKAN KE GUDANG NANDS...</div>`;
+
+            try {
+                // Endpoint Publik yang kita buat tadi (Tanpa verifyToken)
+                const response = await fetch(`${API_URL}/api/products/public-catalog`);
+                const result = await response.json();
+
+                if (result.success) {
+                    fetchedProducts = result.data;
+                    renderGrid();
+                } else {
+                    grid.innerHTML = `<div class="col-span-full text-center py-10 text-red-400">Gagal memuat katalog: ${result.error}</div>`;
+                }
+            } catch (error) {
+                console.error("Gagal ambil data:", error);
+                grid.innerHTML = `<div class="col-span-full text-center py-10 text-red-500 font-bold uppercase text-xs">OFFLINE: Gagal terhubung ke API Server.</div>`;
+            }
+        }
+
+        // 4. FUNGSI RENDER GRID (SAMA PERSIS LAYOUTNYA)
         function renderGrid() {
             const grid = document.getElementById('menu-grid');
             if (!grid) return;
             grid.innerHTML = "";
-            const current = ALL_PRODUCTS.slice(0, displayCount);
+
+            // Ambil produk sesuai displayCount (Pagination)
+            const current = fetchedProducts.slice(0, displayCount);
 
             current.forEach((item, index) => {
+                // Handle link gambar Cloudinary atau Local
+                const imgPath = item.imageUrl || 'https://via.placeholder.com/600x800';
+                const finalImg = (imgPath.startsWith('http') || imgPath.startsWith('//'))
+                    ? (imgPath.startsWith('//') ? `https:${imgPath}` : imgPath)
+                    : `${API_URL}${imgPath}`;
+
                 const card = document.createElement('div');
                 card.className = "reveal active group bg-white rounded-[2.5rem] overflow-hidden border border-slate-100 hover:shadow-2xl transition-all duration-500 flex flex-col";
                 card.innerHTML = `
                     <div class="relative h-80 overflow-hidden img-zoom">
-                        <img src="${item.img}" alt="${item.name}" class="w-full h-full object-cover transition-transform duration-700">
+                        <img src="${finalImg}" alt="${item.name}" class="w-full h-full object-cover transition-transform duration-700">
                         <div class="absolute top-4 left-4">
-                            <span class="px-3 py-1 bg-black/30 backdrop-blur-md text-white text-[9px] font-black uppercase rounded-lg italic border border-white/10 tracking-widest">${item.category}</span>
+                            <span class="px-3 py-1 bg-black/30 backdrop-blur-md text-white text-[9px] font-black uppercase rounded-lg italic border border-white/10 tracking-widest">
+                                ${item.category?.name || 'Collection'}
+                            </span>
                         </div>
                     </div>
                     
@@ -524,7 +542,7 @@
                     <div class="p-8 flex flex-col flex-1 space-y-6 glass-card mx-4 -mt-12 mb-4 rounded-3xl relative z-10">
                         <div class="flex justify-between items-start gap-4">
                             <h4 class="text-lg font-black text-slate-800 uppercase tracking-tighter leading-tight font-display line-clamp-2">${item.name}</h4>
-                            <p class="text-nands-blue font-black text-base italic tracking-tighter whitespace-nowrap">Rp ${item.price.toLocaleString('id-ID')}</p>
+                            <p class="text-nands-blue font-black text-base italic tracking-tighter whitespace-nowrap">Rp ${Number(item.price).toLocaleString('id-ID')}</p>
                         </div>
                         
                         <div class="mt-auto pt-4 border-t border-slate-100 flex items-center justify-between">
@@ -538,7 +556,16 @@
             });
 
             lucide.createIcons();
-            if (displayCount >= ALL_PRODUCTS.length) document.getElementById('btn-see-more').style.display = 'none';
+
+            // Sembunyikan tombol jika data sudah habis
+            const btnMore = document.getElementById('btn-see-more');
+            if (btnMore) {
+                if (displayCount >= fetchedProducts.length) {
+                    btnMore.style.display = 'none';
+                } else {
+                    btnMore.style.display = 'inline-flex';
+                }
+            }
         }
 
         const btnMore = document.getElementById('btn-see-more');
@@ -549,7 +576,12 @@
             };
         }
 
-        renderGrid();
+        // JALANKAN FETCH SAAT LOAD
+        window.onload = () => {
+            lucide.createIcons();
+            fetchCatalog();
+            reveal();
+        };
 
         function reveal() {
             document.querySelectorAll(".reveal").forEach(el => {
@@ -557,7 +589,6 @@
             });
         }
         window.addEventListener("scroll", reveal);
-        window.onload = reveal;
     </script>
 </body>
 
